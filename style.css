@@ -1,0 +1,226 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Nunito", sans-serif;
+    font-size: 1rem;
+    background-color: #fff5e9;
+
+}
+
+.view_window {
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff5e9;
+
+}
+
+.header {
+    height: 10vh;
+    background-color: #101218;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.section_choose_view {
+    height: 15vh;
+    background-color: #fdfdfd;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.select_sort_list {
+    width: 10vw;
+}
+
+#selectSort {
+    padding: 10px;
+}
+
+.pic_view {
+    width: 40px;
+    height: 40px;
+    margin: 20px;
+}
+
+.pic_view:hover {
+    filter: drop-shadow(0px 2px 2px rgba(106, 162, 125, 0.62));
+}
+
+.footer {
+    height: 15vh;
+    background-color: #101218;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer_text {
+    font-size: 1em;
+    color: #c3bbb2;
+    opacity: 90%;
+
+}
+
+.logo_img {
+    width: 45px;
+    height: 45px;
+    margin-left: 20px;
+}
+
+.list_img {
+    width: 30px;
+    height: 30px;
+}
+
+.name {
+    text-transform: uppercase;
+    font-size: 2em;
+    color: #fff5e9;
+}
+
+.main {
+    background-color: #fff5e9;
+    max-width: 900px;
+    margin: auto;
+    padding: 0.5rem;
+    text-align: center;
+    min-height: 65vh;
+}
+
+.container_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    grid-gap: 1rem;
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    padding: 1rem 0;
+}
+
+.container_list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.list_pizza_name {
+    font-size: medium;
+}
+
+.list_pizza_price {
+    font-weight: bold;
+}
+
+.flipped {
+    transform: rotateY(180deg);
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    width: 15rem;
+    height: 20rem;
+    background: #fff;
+    box-shadow: 0 10px 10px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    border-radius: 10px;
+    margin: auto;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    -webkit-transform-origin: 50% 50%;
+}
+
+.card:hover {
+    box-shadow: 0 15px 20px rgba(0, 0, 0, 0.19), 0 10px 10px rgba(0, 0, 0, 0.23);
+}
+
+.card--avatar {
+    width: 100%;
+    height: 10rem;
+    object-fit: cover;
+}
+
+.card--info {
+    width: 15rem;
+    color: #222;
+    font-weight: 700;
+    text-transform: capitalize;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card--title {
+    width: 15rem;
+    color: #222;
+    font-weight: 700;
+    text-transform: capitalize;
+    font-size: 1.1rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgb(0, 0, 0);
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 20vh auto;
+    padding: 20px;
+    font-size: 1rem;
+    width: 50%;
+
+}
+
+.button-modal_section{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 20px;
+}
+
+.modalBtn{
+    display: block;
+    color: #fff5e9;
+    background-color: #101218;
+    padding: 10px;
+    font-size: 16px;
+    width: 10vw;
+    border: none;
+    border-radius: 3px;
+
+}
+.close {
+    color: #aaaaaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}

@@ -1,0 +1,184 @@
+[
+  {
+    "name": "Margherita",
+    "calories": "900",
+    "price": "100",
+    "ingredients": [
+      {
+        "name": "tomatoes",
+        "calories": 30,
+        "price": 30
+      },
+      "mozzarella",
+      "basil"
+    ],
+    "picture": "img/margherita.jpeg"
+  },
+  {
+    "name": "Marinara",
+    "calories": "800",
+    "price": "90",
+    "ingredients": [
+      "tomatoes",
+      "garlic",
+      "oregano"
+    ],
+    "picture": "img/Marinara.jpeg"
+  },
+  {
+    "name": "Chicago",
+    "calories": "1000",
+    "price": "110",
+    "ingredients": [
+      "beef",
+      "pepperoni",
+      "onion",
+      "mushrooms"
+    ],
+    "picture": "img/chicago.jpeg"
+  },
+  {
+    "name": "New York-Style",
+    "calories": "1100",
+    "price": "120",
+    "ingredients": [
+      "tomatoes",
+      "mozzarella",
+      "sausage",
+      "mushrooms"
+    ],
+    "picture": "img/New_York_Style.jpeg"
+  },
+  {
+    "name": "Sicilian ",
+    "calories": "950",
+    "price": "135",
+    "ingredients": [
+      "tomatoes",
+      "onion",
+      "anchovies",
+      "herbs"
+    ],
+    "picture": "img/sicilian.jpeg"
+  },
+  {
+    "name": "Greek",
+    "calories": "850",
+    "price": "105",
+    "ingredients": [
+      "tomatoes",
+      "oregano",
+      "mozzarella",
+      "olives"
+    ],
+    "picture": "img/greek.jpeg"
+  },
+  {
+    "name": "California ",
+    "calories": "1250",
+    "price": "110",
+    "ingredients": [
+      "tomatoes",
+      "chicken",
+      "pepper",
+      "olives"
+    ],
+    "picture": "img/california.jpeg"
+  },
+  {
+    "name": "Detroit",
+    "calories": "1000",
+    "price": "140",
+    "ingredients": [
+      "cheese",
+      "pepperoni",
+      "mushrooms",
+      "olives"
+    ],
+    "picture": "img/detroid.jpeg"
+  },
+  {
+    "name": "St. Louis",
+    "calories": "1100",
+    "price": "120",
+    "ingredients": [
+      "cheese",
+      "tomatoes",
+      "oregano",
+      "herbs"
+    ],
+    "picture": "img/st_l.jpeg"
+  },
+  {
+    "name": "New Jersey",
+    "calories": "1150",
+    "price": "125",
+    "ingredients": [
+      "cheese",
+      "tomatoes ",
+      "oregano",
+      "beef"
+    ],
+    "picture": "img/New_Jersey.jpeg"
+  },
+  {
+    "name": "Calzone",
+    "calories": "1150",
+    "price": "125",
+    "ingredients": [
+      "cheese",
+      "tomatoes",
+      "garlic",
+      "beef"
+    ],
+    "picture": "img/calzone.jpeg"
+  },
+  {
+    "name": "Indian",
+    "calories": "1120",
+    "price": "110",
+    "ingredients": [
+      "cheese",
+      "oregano",
+      "garlic",
+      "herbs"
+    ],
+    "picture": "img/indian.jpeg"
+  },
+  {
+    "name": "Mexican",
+    "calories": "1200",
+    "price": "100",
+    "ingredients": [
+      "cheese",
+      "tomatoes",
+      "olives",
+      "herbs"
+    ],
+    "picture": "img/mexican.jpeg"
+  },
+  {
+    "name": "Ukrainian",
+    "calories": "1100",
+    "price": "120",
+    "ingredients": [
+      "cheese",
+      "tomatoes",
+      "mushrooms",
+      "chicken"
+    ],
+    "picture": "img/ukrainian.jpeg"
+  },
+  {
+    "name": "Sweet",
+    "calories": "1100",
+    "price": "120",
+    "ingredients": [
+      "cheese",
+      "tomatoes",
+      "pineapple",
+      "mozzarella"
+    ],
+    "picture": "img/sweet.jpeg"
+  }
+]
