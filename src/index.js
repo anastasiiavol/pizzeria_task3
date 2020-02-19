@@ -5,22 +5,38 @@ let header = document.createElement("header");
 header.setAttribute("class", "header");
 document.body.appendChild(header);
 
+let pizzeria_info = document.createElement("div");
+pizzeria_info.setAttribute("class", "header");
+header.appendChild(pizzeria_info);
+
 let logo = document.createElement("img");
 logo.setAttribute("src", "img/pizza.svg");
 logo.setAttribute("class", "logo_img");
 logo.setAttribute("alt", "logo");
+pizzeria_info.appendChild(logo);
 
-header.appendChild(logo);
+let basket_items = document.createElement("span");
+let basket_items_text = document.createTextNode(" ");
+basket_items.setAttribute("class", "basket_items");
+basket_items.appendChild(basket_items_text);
+pizzeria_info.appendChild(basket_items);
 
 let pizzeria_name = document.createElement("span");
 let pizzeria_name_text = document.createTextNode("Pizzeria");
 pizzeria_name.setAttribute("class", "name");
 pizzeria_name.appendChild(pizzeria_name_text);
-header.appendChild(pizzeria_name);
+pizzeria_info.appendChild(pizzeria_name);
 
-let section_choose_view = document.createElement("div");
-section_choose_view.setAttribute("class", "section_choose_view");
-document.body.appendChild(section_choose_view);
+let basket_img = document.createElement("img");
+basket_img.setAttribute("src", "img/icons/shopping-basket.svg");
+basket_img.setAttribute("class", "pic_view");
+basket_img.setAttribute("alt", "pic_view");
+header.appendChild(basket_img);
+
+
+let main_section = document.createElement("div");
+main_section.setAttribute("class", "main_section");
+document.body.appendChild(main_section);
 
 function appendSortSelect(parentContainer) {
     let divSelectSort = document.createElement("div");
@@ -64,32 +80,36 @@ function appendSortSelect(parentContainer) {
     document.getElementById("selectSort").appendChild(originalOrder);
 
     selectSort.addEventListener("change", () => {
-        let pizzas = [];
+        let sortedPizzas = [];
         switch (selectSort.selectedIndex) {
             case parseInt(priceAscending.value):
-                pizzas = sortPizzas(pizzaArr, true, sortByPrice);
-                getListContent(pizzas);
+                sortedPizzas = sortPizzas(dataSource.pizzas, true, sortByPrice);
+                getListContent(sortedPizzas, listContainer);
                 break;
             case parseInt(priceDescending.value):
-                pizzas = sortPizzas(pizzaArr, false, sortByPrice);
-                getListContent(pizzas);
+                sortedPizzas = sortPizzas(dataSource.pizzas, false, sortByPrice);
+                getListContent(sortedPizzas, listContainer);
                 break;
             case parseInt(alphabetOrder.value):
-                pizzas = sortPizzas(pizzaArr, true, sortByName);
-                getListContent(pizzas);
+                sortedPizzas = sortPizzas(dataSource.pizzas, true, sortByName);
+                getListContent(sortedPizzas, listContainer);
                 break;
             case parseInt(reverseOrder.value):
-                pizzas = sortPizzas(pizzaArr, false, sortByName);
-                getListContent(pizzas);
+                sortedPizzas = sortPizzas(dataSource.pizzas, false, sortByName);
+                getListContent(sortedPizzas, listContainer);
                 break;
             case parseInt(originalOrder.value):
-                getListContent(pizzaArr);
+                getListContent(dataSource.pizzas, listContainer);
                 break;
         }
     });
     selectSort.selectedIndex = parseInt(originalOrder.value);
 }
 
+
+let section_choose_view = document.createElement("div");
+section_choose_view.setAttribute("class", "section_choose_view");
+main_section.appendChild(section_choose_view);
 
 let pic_view_grid = document.createElement("img");
 pic_view_grid.setAttribute("src", "img/icons/grid.svg");
@@ -106,7 +126,6 @@ section_choose_view.appendChild(pic_view_list);
 
 pic_view_grid.addEventListener("click", function () {
     document.querySelector(".container_list").innerHTML = "";
-
     handleGridMode();
 });
 
@@ -138,33 +157,54 @@ footer_info.setAttribute("class", "footer_text");
 footer_info.appendChild(footer_info_text);
 footer.appendChild(footer_info);
 
-appendCheckBoxes(ingredients, "filterArea", section_choose_view, () => {
-    let chosenIngredients = [];
-    let checkBoxes = section_choose_view.getElementsByClassName("checkbox");
-    for (let i = 0; i < checkBoxes.length; i++) {
-        if (checkBoxes[i].checked) {
-            chosenIngredients.push(ingredients[i]);
-        }
-    }
-    let filteredPizzas = filterByIngredients(pizzaArr, chosenIngredients);
-    getGridContent(filteredPizzas);
-});
-appendSortSelect(section_choose_view);
+function createShowFilterBtn(parentContainer) {
+    let divSelectFilter = document.createElement("div");
+    parentContainer.appendChild(divSelectFilter);
+    divSelectFilter.setAttribute("class", "divSelectFilter");
+
+    let checkboxBtn = document.createElement("button");
+    checkboxBtn.setAttribute("class", "btn_filter");
+    checkboxBtn.setAttribute("id", "checkboxBtn");
+    let titleBtn = document.createTextNode("Apply filter");
+    checkboxBtn.appendChild(titleBtn);
+    divSelectFilter.appendChild(checkboxBtn);
+
+
+    checkboxBtn.addEventListener("click", function () {
+        appendCheckBoxes(dataSource.ingredients, "divSelectFilter", main_section, () => {
+            let chosenIngredients = [];
+            let checkBoxes = main_section.getElementsByClassName("checkbox");
+            for (let i = 0; i < checkBoxes.length; i++) {
+                if (checkBoxes[i].checked) {
+                    chosenIngredients.push(dataSource.ingredients[i]);
+                }
+            }
+            let filteredPizzas = filterByIngredients(dataSource.pizzas, chosenIngredients);
+            getGridContent(filteredPizzas);
+
+        });
+        document.getElementById("checkboxBtn").style.visibility = "hidden";
+
+
+    });
+}
+
+createShowFilterBtn(main_section);
+appendSortSelect(main_section);
 hideFilterList();
 hideSortList();
-
-/*----------------------------------------------------------------------------*/
 
 function handleGridMode() {
     showFilterList();
     hideSortList();
-    getGridContent(pizzaArr);
+    getGridContent(dataSource.pizzas);
+    console.log("receive from data source: " + dataSource.pizzas);
 }
 
 function handleListMode() {
     hideFilterList();
     showSortList();
-    getListContent(pizzaArr);
+    getListContent(dataSource.pizzas, listContainer);
 }
 
 
@@ -182,7 +222,7 @@ function getGridContent(pizzasGrid) {
     }
 }
 
-function getListContent(pizzasList) {
+function getListContent(pizzasList, listContainer) {
     clearContainer(listContainer);
     for (let i = 0; i < pizzasList.length; i++) {
         let card = createPizzaRow(pizzasList[i]);
@@ -191,6 +231,7 @@ function getListContent(pizzasList) {
 }
 
 function createPizzaRow(pizza) {
+
     let divSelectSort = document.createElement("div");
     divSelectSort.setAttribute("class", "select_sort_type");
 
@@ -200,7 +241,7 @@ function createPizzaRow(pizza) {
     imgList.setAttribute("class", "list_img");
 
     divSelectSort.appendChild(createPizzaListField("span", "class", "list_pizza_name", "Name " + pizza.name));
-    divSelectSort.appendChild(createPizzaListField("span", "class", "list_pizza_price", " Price " + pizza.price));
+    divSelectSort.appendChild(createPizzaListField("span", "class", "list_pizza_price", " Price " + pizza.price + " UAH"));
 
 
     return divSelectSort;
@@ -219,38 +260,40 @@ function createPizzaCard(pizza) {
 
     let card = document.createElement("div");
     card.setAttribute("class", "card");
+
     card.setAttribute("id", "card");
 
     let cardFront = document.createElement("div");
     cardFront.setAttribute("class", "card_front");
-
+    card.appendChild(cardFront);
 
     let cardBack = document.createElement("div");
     cardBack.setAttribute("class", "card_back");
-
-
-
-
+    card.appendChild(cardBack);
 
     let cardImage = document.createElement("img");
     cardImage.setAttribute("src", pizza.picture);
     cardImage.setAttribute("class", "card--avatar");
-    card.appendChild(cardImage);
+    cardBack.appendChild(cardImage);
 
 
     let ingredientBox = document.createElement("input");
     ingredientBox.setAttribute("type", "checkbox");
 
-    /*    let imageField = createCardField("img", "src", "card--avatar", "" + pizza.image);*/
-
     let caloriesField = createCardField("span", "class", "card--info", "Calories " + pizza.calories);
-    let priceField = createCardField("span", "class", "card--info", "Price " + pizza.price);
+    let priceField = createCardField("span", "class", "card--info", "Price " + pizza.price + " UAH");
 
 
-    card.appendChild(createCardField("span", "class", "card--title", pizza.name));
+    cardFront.appendChild(createCardField("span", "class", "card--title", pizza.name));
+    cardBack.appendChild(createCardField("span", "class", "card--title", pizza.name));
 
+    $(document).ready(function () {
+        $(".card").dblclick(function () {
+            $(this).toggleClass('flipped');
+        });
+    });
 
-    appendCheckBoxes(pizza.ingredients, "card_checkboxes", card, (checkbox) => {
+    appendCheckBoxes(pizza.ingredients, "card_checkboxes", cardFront, (checkbox) => {
         if (checkbox.checked) {
             let index = pizza.removedIngredients.indexOf(pizza.ingredients[checkbox.value]);
             pizza.removedIngredients.splice(index, 1);
@@ -260,18 +303,27 @@ function createPizzaCard(pizza) {
         caloriesField.textContent = "Calories " + pizza.calories;
         priceField.textContent = "Price " + pizza.price;
     });
-    let ingredientsCB = card.getElementsByClassName("checkbox");
+    let ingredientsCB = cardFront.getElementsByClassName("checkbox");
     for (let i = 0; i < ingredientsCB.length; i++) {
-        ingredientsCB[i].checked = true;
+        ingredientsCB[i].checked = !pizza.removedIngredients.includes(pizza.ingredients[i]);
     }
 
 
-    card.appendChild(caloriesField);
-    card.appendChild(priceField);
+    cardFront.appendChild(caloriesField);
+    cardFront.appendChild(priceField);
 
+    let card_shop_btn = document.createElement("button");
+    card_shop_btn.setAttribute("class", "card_shop_btn");
+    let card_shop_btn_text = document.createTextNode("Add to card");
+    card_shop_btn.appendChild(card_shop_btn_text);
+    cardFront.appendChild(card_shop_btn);
 
+    card_shop_btn.addEventListener("click", () => {
+        basket.add(pizza);
+    });
     return card;
 }
+
 
 function createCardField(tag, value, valueName, text) {
     let cardField = document.createElement(tag);
@@ -284,7 +336,7 @@ function createCardField(tag, value, valueName, text) {
 
 
 function hideSortList() {
-    let elements = section_choose_view.getElementsByClassName("select_sort_type");
+    let elements = main_section.getElementsByClassName("select_sort_type");
     for (let i = 0; i < elements.length; i++) {
         elements[i].style.visibility = "hidden";
     }
@@ -292,7 +344,7 @@ function hideSortList() {
 }
 
 function showSortList() {
-    let elements = section_choose_view.getElementsByClassName("select_sort_type");
+    let elements = main_section.getElementsByClassName("select_sort_type");
     for (let i = 0; i < elements.length; i++) {
         elements[i].style.visibility = "visible";
     }
@@ -300,14 +352,14 @@ function showSortList() {
 }
 
 function hideFilterList() {
-    let elements = section_choose_view.getElementsByClassName("filterArea");
+    let elements = main_section.getElementsByClassName("divSelectFilter");
     for (let i = 0; i < elements.length; i++) {
         elements[i].style.visibility = "hidden";
     }
 }
 
 function showFilterList() {
-    let elements = section_choose_view.getElementsByClassName("filterArea");
+    let elements = main_section.getElementsByClassName("divSelectFilter");
     for (let i = 0; i < elements.length; i++) {
         elements[i].style.visibility = "visible";
     }
@@ -364,13 +416,13 @@ function appendCheckBoxes(ingredients, className, parentContainer, onCheckChange
     filterArea.className = className;
 
 
-
     for (let i = 0; i < ingredients.length; i++) {
         let checkbox = document.createElement("input");
         checkbox.setAttribute("type", "checkbox");
         checkbox.className = "checkbox";
         checkbox.value = i.toString();
         checkbox.addEventListener("change", () => onCheckChanged(checkbox));
+
 
         let checkboxLabel = document.createElement("label");
         checkboxLabel.className = "checkbox_label";
@@ -384,7 +436,7 @@ function appendCheckBoxes(ingredients, className, parentContainer, onCheckChange
 
 }
 
-function getModal(){
+function getModal() {
 
     let modal = document.createElement("div");
     modal.setAttribute("id", "myModal");
@@ -417,9 +469,10 @@ function getModal(){
     function mod() {
         modal.style.display = "block";
     }
+
     mod();
 
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }
@@ -435,9 +488,48 @@ function getModal(){
         handleListMode();
     });
 }
+
 getModal();
 
+function shopModal() {
 
+    let modal = document.createElement("div");
+    modal.setAttribute("id", "shopModal");
+    modal.setAttribute("class", "shop_modal");
+    document.body.appendChild(modal);
+
+    let modalContent = document.createElement("div");
+    modalContent.setAttribute("class", "shop_modal-content");
+    let viewSelector = document.createTextNode("Shop List");
+    modalContent.appendChild(viewSelector);
+    modal.appendChild(modalContent);
+
+    let orderContainer = document.createElement("div");
+    orderContainer.setAttribute("id", "orderContainer");
+    orderContainer.setAttribute("class", "orderContainer");
+    modalContent.appendChild(orderContainer);
+
+    function mod() {
+        modal.style.display = "block";
+    }
+
+    mod();
+
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+
+    let order = basket.items;
+    getListContent(order, orderContainer);
+
+}
+
+
+basket_img.addEventListener("click", function () {
+    shopModal();
+});
 
 
 

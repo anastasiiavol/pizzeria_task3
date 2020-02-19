@@ -1,126 +1,491 @@
 'use strict';
 
-let pizzaArr = [];
+const ingredientsJson = '[\n' +
+    '    {\n' +
+    '      "name": "tomato",\n' +
+    '      "calories": 20,\n' +
+    '      "price": 15\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "mozzarella",\n' +
+    '      "calories": 30,\n' +
+    '      "price": 25\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "basil",\n' +
+    '      "calories": 10,\n' +
+    '      "price": 20\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "garlic",\n' +
+    '      "calories": 20,\n' +
+    '      "price": 20\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "oregano",\n' +
+    '      "calories": 20,\n' +
+    '      "price": 25\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "beef",\n' +
+    '      "calories": 200,\n' +
+    '      "price": 50\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "pepperoni",\n' +
+    '      "calories": 150,\n' +
+    '      "price": 50\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "onion",\n' +
+    '      "calories": 30,\n' +
+    '      "price": 15\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "mushrooms",\n' +
+    '      "calories": 40,\n' +
+    '      "price": 25\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "sausage",\n' +
+    '      "calories": 200,\n' +
+    '      "price": 45\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "anchovies",\n' +
+    '      "calories": 150,\n' +
+    '      "price": 55\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "herbs",\n' +
+    '      "calories": 20,\n' +
+    '      "price": 25\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "olives",\n' +
+    '      "calories": 30,\n' +
+    '      "price": 30\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "chicken",\n' +
+    '      "calories": 150,\n' +
+    '      "price": 40\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "pepper",\n' +
+    '      "calories": 50,\n' +
+    '      "price": 25\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "cheese",\n' +
+    '      "calories": 200,\n' +
+    '      "price": 30\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "pineapple",\n' +
+    '      "calories": 150,\n' +
+    '      "price": 35\n' +
+    '    }\n' +
+    '  ]';
 
-let tomato = new Ingredient('tomato', 20, 15);
-let mozzarella = new Ingredient('mozzarella', 30, 25);
-let basil = new Ingredient('basil', 10, 20);
-let garlic = new Ingredient('garlic', 20, 20);
-let oregano = new Ingredient('oregano', 20, 25);
-let beef = new Ingredient('beef', 200, 50);
-let pepperoni = new Ingredient('pepperoni', 150, 50);
-let onion = new Ingredient('onion', 30, 15);
-let mushrooms = new Ingredient('mushrooms', 40, 25);
-let sausage = new Ingredient('sausage', 200, 45);
-let anchovies = new Ingredient('anchovies', 150, 55);
-let herbs = new Ingredient('herbs', 20, 25);
-let olives = new Ingredient('olives', 30, 30);
-let chicken = new Ingredient('chicken', 150, 40);
-let pepper = new Ingredient('pepper', 50, 25);
-let cheese = new Ingredient('cheese', 200, 30);
-let pineapple = new Ingredient('pineapple', 150, 35);
+const pizzasJson = '[\n' +
+    '    {\n' +
+    '      "name": "Margherita",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "mozzarella",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "basil",\n' +
+    '          "calories": 10,\n' +
+    '          "price": 20\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/margherita.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Marinara",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "garlic",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 20\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "oregano",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/Marinara.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Chicago",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "beef",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 50\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "pepperoni",\n' +
+    '          "calories": 150,\n' +
+    '          "price": 50\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "onion",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "mushrooms",\n' +
+    '          "calories": 40,\n' +
+    '          "price": 25\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/chicago.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "New York-Style",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "mozzarella",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "sausage",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 45\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "mushrooms",\n' +
+    '          "calories": 40,\n' +
+    '          "price": 25\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/New_York_Style.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Sicilian ",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "onion",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "anchovies",\n' +
+    '          "calories": 150,\n' +
+    '          "price": 55\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "herbs",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/sicilian.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Greek",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "oregano",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "mozzarella",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "olives",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 30\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/greek.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "California ",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "chicken",\n' +
+    '          "calories": 150,\n' +
+    '          "price": 40\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "pepper",\n' +
+    '          "calories": 50,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "olives",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 30\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/california.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Detroit",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "cheese",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "pepperoni",\n' +
+    '          "calories": 150,\n' +
+    '          "price": 50\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "mushrooms",\n' +
+    '          "calories": 40,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "olives",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 30\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/detroid.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "St. Louis",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "cheese",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "oregano",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "herbs",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/st_l.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "New Jersey",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "cheese",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "oregano",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "beef",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 50\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/New_Jersey.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Calzone",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "cheese",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "garlic",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 20\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "beef",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 50\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/calzone.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Indian",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "cheese",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "oregano",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "garlic",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 20\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "herbs",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/indian.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Mexican",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "cheese",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "olives",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "herbs",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 25\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/mexican.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Ukrainian",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "cheese",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "mushrooms",\n' +
+    '          "calories": 40,\n' +
+    '          "price": 25\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "chicken",\n' +
+    '          "calories": 150,\n' +
+    '          "price": 40\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/ukrainian.jpeg"\n' +
+    '    },\n' +
+    '    {\n' +
+    '      "name": "Sweet",\n' +
+    '      "ingredients": [\n' +
+    '        {\n' +
+    '          "name": "cheese",\n' +
+    '          "calories": 200,\n' +
+    '          "price": 30\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "tomato",\n' +
+    '          "calories": 20,\n' +
+    '          "price": 15\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "pineapple",\n' +
+    '          "calories": 150,\n' +
+    '          "price": 35\n' +
+    '        },\n' +
+    '        {\n' +
+    '          "name": "mozzarella",\n' +
+    '          "calories": 30,\n' +
+    '          "price": 25\n' +
+    '        }\n' +
+    '      ],\n' +
+    '      "removedIngredients": [],\n' +
+    '      "picture": "img/sweet.jpeg"\n' +
+    '    }\n' +
+    '  ]';
 
-let ingredients = [
-    tomato,
-    mozzarella,
-    basil,
-    garlic,
-    oregano,
-    beef,
-    pepperoni,
-    onion,
-    mushrooms,
-    sausage,
-    anchovies,
-    herbs,
-    olives,
-    chicken,
-    pepper,
-    cheese,
-    pineapple
-];
+dataSource.ingredients = JSON.parse(ingredientsJson).map(value => Object.assign(new Ingredient(), value));
+dataSource.pizzas = JSON.parse(pizzasJson).map(value => Object.assign(new PizzaItem(), value));
 
-let Margherita = new PizzaItem(
-    'Margherita',
-    [tomato, mozzarella, basil],
-    'img/margherita.jpeg'
-);
-
-let Marinara = new PizzaItem(
-    'Marinara',
-    [tomato, garlic, oregano],
-    'img/Marinara.jpeg'
-);
-let Chicago = new PizzaItem(
-    'Chicago',
-    [beef, pepperoni, onion, mushrooms],
-    'img/chicago.jpeg'
-);
-let New_York_Style = new PizzaItem(
-    'New York-Style',
-    [tomato, mozzarella, sausage, mushrooms],
-    'img/New_York_Style.jpeg'
-);
-let Sicilian = new PizzaItem(
-    'Sicilian ',
-    [tomato, onion, anchovies, herbs],
-    'img/sicilian.jpeg'
-);
-
-let Greek = new PizzaItem(
-    'Greek',
-    [tomato, oregano, mozzarella, olives],
-    'img/greek.jpeg'
-);
-let California = new PizzaItem(
-    'California ',
-    [tomato, chicken, pepper, olives],
-    'img/california.jpeg'
-);
-let Detroit = new PizzaItem(
-    'Detroit',
-    [cheese, pepperoni, mushrooms, olives],
-    'img/detroid.jpeg'
-);
-let St_Louis = new PizzaItem(
-    'St. Louis',
-    [cheese, tomato, oregano, herbs],
-    'img/st_l.jpeg'
-);
-let New_Jersey = new PizzaItem(
-    'New Jersey',
-    [cheese, tomato, oregano, beef],
-    'img/New_Jersey.jpeg'
-);
-
-let Calzone = new PizzaItem(
-    'Calzone',
-    [cheese, tomato, garlic, beef],
-    'img/calzone.jpeg'
-);
-let Indian = new PizzaItem(
-    'Indian',
-    [cheese, oregano, garlic, herbs],
-    'img/indian.jpeg'
-);
-let Mexican = new PizzaItem(
-    'Mexican',
-    [cheese, tomato, olives, herbs],
-    'img/mexican.jpeg'
-);
-let Ukrainian = new PizzaItem(
-    'Ukrainian',
-    [cheese, tomato, mushrooms, chicken],
-    'img/ukrainian.jpeg'
-);
-let Sweet = new PizzaItem(
-    'Sweet',
-    [cheese, tomato, pineapple, mozzarella],
-    'img/sweet.jpeg'
-);
-
-pizzaArr.push(Margherita, Marinara, Chicago,
-    New_York_Style, Sicilian, Greek,
-    California, Detroit, St_Louis,
-    New_Jersey, Calzone, Indian,
-    Mexican, Ukrainian, Sweet);
