@@ -16,7 +16,7 @@ logo.setAttribute("alt", "logo");
 pizzeria_info.appendChild(logo);
 
 let basket_items = document.createElement("span");
-let basket_items_text = document.createTextNode(" ");
+let basket_items_text = document.createTextNode("");
 basket_items.setAttribute("class", "basket_items");
 basket_items.appendChild(basket_items_text);
 pizzeria_info.appendChild(basket_items);
@@ -198,7 +198,6 @@ function handleGridMode() {
     showFilterList();
     hideSortList();
     getGridContent(dataSource.pizzas);
-    console.log("receive from data source: " + dataSource.pizzas);
 }
 
 function handleListMode() {
@@ -233,7 +232,7 @@ function getListContent(pizzasList, listContainer) {
 function createPizzaRow(pizza) {
 
     let divSelectSort = document.createElement("div");
-    divSelectSort.setAttribute("class", "select_sort_type");
+    divSelectSort.setAttribute("class", "pizza_list");
 
     let imgList = document.createElement("img");
     divSelectSort.appendChild(imgList);
@@ -491,6 +490,35 @@ function getModal() {
 
 getModal();
 
+function createBasketRow(pizza) {
+
+    let shopcardSection = document.createElement("div");
+    shopcardSection.setAttribute("class", "shopcard_section");
+
+    shopcardSection.appendChild(createPizzaListField("div", "class", "basket_pizza_name",  pizza.name));
+    shopcardSection.appendChild(createPizzaListField("div", "class", "basket_pizza_price",  pizza.price + " UAH"));
+
+    let deletePizzaImg = document.createElement("img");
+    deletePizzaImg.setAttribute("src", "img/icons/delete.svg");
+    deletePizzaImg.setAttribute("class", "basket_delete_pizza");
+    shopcardSection.appendChild(deletePizzaImg);
+
+
+    deletePizzaImg.addEventListener("click", ()=>{
+        basket.delete(pizza);
+
+    });
+    return shopcardSection;
+}
+
+function getBasketContent(order, orderContainer) {
+    clearContainer(orderContainer);
+    for (let i = 0; i < order.length; i++) {
+        let row = createBasketRow(order[i]);
+        orderContainer.appendChild(row);
+    }
+}
+
 function shopModal() {
 
     let modal = document.createElement("div");
@@ -509,6 +537,24 @@ function shopModal() {
     orderContainer.setAttribute("class", "orderContainer");
     modalContent.appendChild(orderContainer);
 
+    let basket_button_section = document.createElement("div");
+    basket_button_section.setAttribute("id", "basket_button_section");
+    basket_button_section.setAttribute("class", "basket_button_section");
+    modalContent.appendChild(basket_button_section);
+
+    let clearBtn = document.createElement("button");
+    clearBtn.setAttribute("class", "basket_clear_btn");
+    let clearBtnText = document.createTextNode("Clear");
+    clearBtn.appendChild(clearBtnText);
+    basket_button_section.appendChild(clearBtn);
+
+    let orderBtn = document.createElement("button");
+    orderBtn.setAttribute("class", "basket_order_btn");
+    let orderBtnText = document.createTextNode("Order");
+    orderBtn.appendChild(orderBtnText);
+    basket_button_section.appendChild(orderBtn);
+
+
     function mod() {
         modal.style.display = "block";
     }
@@ -522,8 +568,11 @@ function shopModal() {
     };
 
     let order = basket.items;
-    getListContent(order, orderContainer);
+    getBasketContent(order, orderContainer);
 
+    clearBtn.addEventListener("click",()=>{
+        basket.clear();
+    })
 }
 
 

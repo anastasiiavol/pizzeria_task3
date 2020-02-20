@@ -41,5 +41,5 @@ class Basket {
 
 }
 
-var basket = new Basket(dataSource.basket);
+let basket = new Basket(dataSource.basket);
 

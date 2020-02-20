@@ -50,7 +50,7 @@ class DataSource {
 
     set basket(basket) {
         this.#basket = basket;
-        console.log(basket);
+
         localStorage.setItem(this.#KEY_BASKET, JSON.stringify(basket));
     }
 

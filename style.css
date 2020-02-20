@@ -27,11 +27,13 @@ body {
     justify-content: space-between;
     align-items: center;
 }
-.section_choose_view{
+
+.section_choose_view {
     display: flex;
     flex-direction: row;
 
 }
+
 .main_section {
     height: 15vh;
     background-color: #fdfdfd;
@@ -55,7 +57,7 @@ body {
     margin: 20px;
 }
 
-.pic_view:hover {
+.pic_view:hover, .basket_delete_pizza:hover {
     filter: drop-shadow(0px 2px 2px rgba(106, 162, 125, 0.62));
 }
 
@@ -81,7 +83,7 @@ body {
     margin-left: 20px;
 }
 
-.list_img {
+.list_img, .basket_delete_pizza {
     width: 30px;
     height: 30px;
 }
@@ -243,30 +245,7 @@ body {
 
 }
 
-.shop_modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    padding-top: 100px;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(16, 18, 24, 0.53);
-}
 
-.shop_modal-content{
-    background-color: rgb(250, 250, 250);
-    margin: 20vh auto;
-    padding: 20px;
-    font-size: 1.5rem;
-    font-weight: bold;
-    text-align: center;
-    width: 50%;
-    border-radius: 5px;
-
-}
 .button-modal_section {
     display: flex;
     flex-direction: row;
@@ -301,6 +280,82 @@ body {
     cursor: pointer;
 }
 
-/*.card:hover {
-    transform: rotateY(180deg);
-}*/
+/*basket*/
+.shop_modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    padding-top: 100px;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(16, 18, 24, 0.53);
+}
+
+.shop_modal-content {
+    background-color: rgb(250, 250, 250);
+    margin: 20vh auto;
+    padding: 20px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-align: center;
+    width: 50%;
+    border-radius: 5px;
+
+}
+.pizza_list{
+    display: grid;
+    grid-template-columns: 10vw 15vw 10vw;
+    margin: 8px;
+    padding: 5px;
+    border-collapse: collapse;
+    border: 1px solid rgba(128, 128, 128, 0.64);
+
+}
+
+.shopcard_section  {
+    display: grid;
+    grid-template-columns: 20vw 20vw 20vw;
+    margin: 8px;
+    padding: 10px;
+    border-collapse: collapse;
+    border: 1px solid rgba(128, 128, 128, 0.64);
+}
+
+.basket_pizza_name, .basket_pizza_price {
+    margin: 5px;
+    font-weight: normal;
+    font-size: 1rem;
+
+}
+
+.basket_button_section {
+    display: flex;
+    flex-direction: row;
+    margin: 8px;
+}
+
+.basket_order_btn, .basket_clear_btn {
+    display: block;
+    color: #fff5e9;
+    background-color: #101218;
+    padding: 10px;
+    width: 6vw;
+    height: auto;
+    border: none;
+    border-radius: 3px;
+    font-size: 1rem;
+    margin-right: 10px;
+}
+
+.basket_order_btn:hover, .basket_clear_btn:hover, .card_shop_btn:hover {
+    background-color: #242937;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+
+}
+
+.basket_items {
+    background-color: red;
+}
